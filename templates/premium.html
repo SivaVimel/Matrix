@@ -275,6 +275,16 @@
     </style>
 </head>
 <body>
+    <script>
+    // Listen for the pageshow event
+    window.addEventListener('pageshow', function(event) {
+        // Check if navigation is through the browser's back or forward buttons
+        if (event.persisted) {
+            // Reload the page
+            window.location.reload();
+        }
+    });
+    </script>
     <div class="header" id="header">
         <a href="#" class="tab1" onclick="showPopup()">
             <script src="https://cdn.lordicon.com/lordicon.js"></script>
@@ -430,11 +440,27 @@
             <h2 style='font-family: Arial, Helvetica, sans-serif; color:rgba(0, 255, 255, 0.771); margin-bottom: 3px;'>Welcome Human!</h2>
             <p style='font-family: "Lucida Console", "Courier New", monospace; margin-top:3px; color:#80fcfcc4;'>The Message sending portal will enable you to pretend like Gemini 1.5 and alter the conversation with Gemini 1.0. Choose your words wisely! Your decision could start or stop an intriguing conversation. Click <a href='/'><button class='button1' style='padding: 5px 15px;'><strong>TERMINATE</strong></button></a> to go back to the homepage and pretend nothing has happened.</p>
             <img style='width:90%;' src='\static\m1.png'>
+            <div id='loadField' style='display: none; text-align:center;'>
+                <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                <lord-icon
+                    src="https://cdn.lordicon.com/pbbsmkso.json"
+                    trigger="loop"
+                    state="hover-rotate-up-to-down"
+                    colors="primary:aqua"
+                    style="width:25px;height:25px">
+                </lord-icon>
+            </div>
+            <script>
+                function displayLoad() {
+                    var text = document.getElementById('loadField')
+                    text.style.display = 'block';
+                }
+            </script>
         </div>
         <div class="form-container">
             <form class="Messenger" action="/send_message" method="post">
                 <input type="text" name="message" placeholder="Hey! I am Gemini 1.5">
-                <button type="submit">Send</button>
+                <button onclick='displayLoad()' type="submit">Send</button>
             </form>
         </div>
     </div>

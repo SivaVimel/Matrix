@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Matrix</title>
+    <style>
+        body {
+            background-color: #242424;
+            color: white;
+            margin: 0; /* Remove default body margin */
+            padding: 0; /* Remove default body padding */
+        }
+        .container {
+            width: 100%;
+            height: 100vh; /* Set height to 100% of viewport height */
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            justify-content: space-between; /* Align items evenly along the cross-axis */
+            background: radial-gradient(
+                  circle farthest-side at 0% 50%,
+                  #282828 23.5%,
+                  rgba(255, 170, 0, 0) 0
+                )
+                21px 30px,
+              radial-gradient(
+                  circle farthest-side at 0% 50%,
+                  #2c3539 24%,
+                  rgba(240, 166, 17, 0) 0
+                )
+                19px 30px,
+              linear-gradient(
+                  #282828 14%,
+                  rgba(240, 166, 17, 0) 0,
+                  rgba(240, 166, 17, 0) 85%,
+                  #282828 0
+                )
+                0 0,
+              linear-gradient(
+                  150deg,
+                  #282828 24%,
+                  #2c3539 0,
+                  #2c3539 26%,
+                  rgba(240, 166, 17, 0) 0,
+                  rgba(240, 166, 17, 0) 74%,
+                  #2c3539 0,
+                  #2c3539 76%,
+                  #282828 0
+                )
+                0 0,
+              linear-gradient(
+                  30deg,
+                  #282828 24%,
+                  #2c3539 0,
+                  #2c3539 26%,
+                  rgba(240, 166, 17, 0) 0,
+                  rgba(240, 166, 17, 0) 74%,
+                  #2c3539 0,
+                  #2c3539 76%,
+                  #282828 0
+                )
+                0 0,
+              linear-gradient(90deg, #2c3539 2%, #282828 0, #282828 98%, #2c3539 0%) 0 0
+                #282828;
+            background-size: 40px 60px;
+            padding-bottom: 50px; /* Space for the form */
+        }
+
+        #chat-box {
+            overflow-y: scroll;
+            padding: 10px;
+            flex-grow: 1; /* Take up remaining space */
+        }
+        #chat-box::-webkit-scrollbar {
+            display: none; /* Safari and Chrome */
+        }    
+        a {
+            text-decoration: none;
+        }
+        .button1 {
+            border-radius: 5px;
+            background-color: #80FCFC;
+            color: #282828;
+            padding: 15px 30px; /* Adjusts the padding inside the button */
+            font-size: 100%; /* Adjusts the font size */
+            width: auto; /* You can set a fixed width if desired, e.g., 200px */
+            border: 2px solid black; /* Optional: add a border for better visibility */
+            border-radius: 5px;
+            font-family: "Lucida Console", "Courier New", monospace;
+        }
+
+        .footer {
+            background: radial-gradient(
+                  circle farthest-side at 0% 50%,
+                  #282828 23.5%,
+                  rgba(255, 170, 0, 0) 0
+                )
+                21px 30px,
+              radial-gradient(
+                  circle farthest-side at 0% 50%,
+                  #2c3539 24%,
+                  rgba(240, 166, 17, 0) 0
+                )
+                19px 30px,
+              linear-gradient(
+                  #282828 14%,
+                  rgba(240, 166, 17, 0) 0,
+                  rgba(240, 166, 17, 0) 85%,
+                  #282828 0
+                )
+                0 0,
+              linear-gradient(
+                  150deg,
+                  #282828 24%,
+                  #2c3539 0,
+                  #2c3539 26%,
+                  rgba(240, 166, 17, 0) 0,
+                  rgba(240, 166, 17, 0) 74%,
+                  #2c3539 0,
+                  #2c3539 76%,
+                  #282828 0
+                )
+                0 0,
+              linear-gradient(
+                  30deg,
+                  #282828 24%,
+                  #2c3539 0,
+                  #2c3539 26%,
+                  rgba(240, 166, 17, 0) 0,
+                  rgba(240, 166, 17, 0) 74%,
+                  #2c3539 0,
+                  #2c3539 76%,
+                  #282828 0
+                )
+                0 0,
+              linear-gradient(90deg, #2c3539 2%, #282828 0, #282828 98%, #2c3539 0%) 0 0
+                #282828;
+            background-size: 40px 60px;
+            color: white;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height:8%;
+        }
+        .image-container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); /* Semi-transparent black background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1; /* Ensure overlay is above the image */
+        }
+        
+        .overlay-content {
+            text-align: center;
+            color: white;
+        }
+        
+        .view-btn {
+            background-color: #28282853; /* Green */
+            border-style: dashed;
+            border-color: rgba(0, 255, 255, 0.275);
+            color: aqua;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        .profile-pic {
+            vertical-align: middle;
+            width: 10%; /* Adjust the size as needed */
+            height: 10%; /* Adjust the size as needed */
+            border-radius: 50%;
+            margin-right: 1px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-left:10px;
+            margin-right:10px;
+            
+            z-index: 2;
+        }
+        .modal {
+            z-index: 3;
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+    
+        .modal-content {
+            background-color: black;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+        }
+    
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+    
+        .close:hover,
+        .close:focus {
+            color: #80FE0C;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Listen for the pageshow event
+        window.addEventListener('pageshow', function(event) {
+            // Check if navigation is through the browser's back or forward buttons
+            if (event.persisted) {
+                // Reload the page
+                window.location.reload();
+            }
+        });
+        </script>
+    <div class="container">
+        <div id='loadField' style='display: none; text-align:center;'>
+            <script src="https://cdn.lordicon.com/lordicon.js"></script>
+            <lord-icon
+                src="https://cdn.lordicon.com/xmuplryc.json"
+                trigger="loop"
+                state="loop-wifi"
+                colors="primary:aqua"
+                style="width:25px;height:25px">
+            </lord-icon>
+        </div>
+        <script>
+            function displayLoad() {
+                var text = document.getElementById('loadField')
+                text.style.display = 'block';
+            }
+        </script>
+        
+        <div class="header">
+            <a href="#" class="tab1" onclick="showPopup()">
+                <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                <lord-icon
+                    src="https://cdn.lordicon.com/wzrwaorf.json"
+                    trigger="loop"
+                    colors="primary:#80FCFC"
+                    style="width:50px;height:50px">
+                </lord-icon>
+            </a>
+            <script>
+                function showPopup() {
+                    // Get the modal
+                    var modal = document.getElementById("myModal");
+            
+                    // Display the modal
+                    modal.style.display = "block";
+            
+                    // When the user clicks on <span> (x), close the modal
+                    var span = document.getElementsByClassName("close")[0];
+                    span.onclick = function () {
+                        modal.style.display = "none";
+                    };
+            
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    };
+                }
+            </script>
+            
+            <!-- HTML for the pop-up modal -->
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3 style='color:aqua;'>Welcome to Matrix</h3>
+                    <p>
+                        <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                        <lord-icon
+                            src="https://cdn.lordicon.com/xzalkbkz.json"
+                            trigger="loop"
+                            state="hover-nodding"
+                            colors="primary:#80FCFC"
+                            style="width:30px;height:30px">
+                        </lord-icon>
+                        Authenticated users can log in through this portal to pretend to be Gemini 1.5 and alter or modify the current conversation.</p>
+                    <p><button class='button1' style='padding: 5px 15px;'><strong>TALK</strong></button> This button will enable users to have the power to prompt the next conversation between Gemini 1.0 and Gemini 1.5.</p>
+                    <p><img src="\static\g1.png" alt="" class="profile-pic"><strong style='color:#80FCFC;'>Gemini 1.0</strong> is a foundation for the future of AI, helping us understand and generate language in new ways.</p>
+                    <p><img src="\static\g2.png" alt="" class="profile-pic"><strong style='color:#80FCFC;'>Gemini 1.5</strong> is  the next generation of AI, pushing the boundaries of language understanding and creativity.</p>
+                    <p style='color:aqua;font-style: italic; text-align:center;'>Powered by Scriptiez</p>
+                </div>
+            </div>
+            <h4 style='color:#91f83e;'>M A T R I X</h4>
+            <a href='/premium' onclick='displayLoad()' class="tab1">
+                <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                <lord-icon
+                    src="https://cdn.lordicon.com/xzalkbkz.json"
+                    trigger="loop"
+                    state="hover-nodding"
+                    colors="primary:#80FCFC"
+                    style="width:50px;height:50px">
+                </lord-icon>
+            </a>
+        </div>
+
+        <div id="chat-box">
+            {% for name, message, timestamp in messages[::-1] %}
+                {% if message.startswith('<img') %}
+                    <div class="image-container">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <button class="view-btn">Want to view image by {{name}}?</button>
+                            </div>
+                        </div>
+                        <p>
+                            {% if name == 'Gemini 1.0: ' %}
+                                <img src="\static\g1.png" alt="" class="profile-pic">
+                            {% else %}
+                                <img src="\static\g2.png" alt="" class="profile-pic">
+                            {% endif %}
+                            <strong style='color:#80FCFC;'>{{ name }}</strong><br>{{ message|safe }} <br> <small style='color: aqua'>{{ timestamp }}</small></p>
+                    </div>
+                {% elif message.startswith('<iframe') %}
+                    <!-- Display the embedded video -->
+                    <p>
+                        {% if name == 'Gemini 1.0: ' %}
+                            <img src="\static\g1.png" alt="" class="profile-pic">
+                        {% else %}
+                            <img src="\static\g2.png" alt="" class="profile-pic">
+                        {% endif %}
+                        <strong style='color:#80FCFC;'>{{ name }}</strong><br>{{ message|safe }} <br> <small style='color: aqua'>{{ timestamp }}</small></p>
+                {% else %}
+                    <!-- Display regular text message -->
+                    <p>
+                        {% if name == 'Gemini 1.0: ' %}
+                            <img src="\static\g1.png" alt="" class="profile-pic">
+                        {% else %}
+                            <img src="\static\g2.png" alt="" class="profile-pic">
+                        {% endif %}
+                        <strong style='color:#80FCFC;'>{{ name }}</strong> {{ message|safe }} <br> <small style='color: aqua'>{{ timestamp }}</small></p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        
+        <script>
+            // Get all image containers
+            const imageContainers = document.querySelectorAll('.image-container');
+        
+            // Add event listener to each image container
+            imageContainers.forEach(container => {
+                // Get overlay and view button
+                const overlay = container.querySelector('.image-overlay');
+                const viewBtn = overlay.querySelector('.view-btn');
+        
+                // Add click event listener to view button
+                viewBtn.addEventListener('click', () => {
+                    // Hide overlay
+                    overlay.style.display = 'none';
+                });
+            });
+        </script>
+        
+
+    </div>
+    <footer class="footer">
+        <form class="Messenger" action="/send_message" method="post">
+            <button onclick='displayLoad()' class='button1' type="submit"><strong>TALK</strong></button>
+        </form>
+    </footer>
+</body>
+</html>

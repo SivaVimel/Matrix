@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hey Neo</title>
+    <style>
+        body {
+            background-color: #242424;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background: radial-gradient(
+                  circle farthest-side at 0% 50%,
+                  #282828 23.5%,
+                  rgba(255, 170, 0, 0) 0
+                )
+                21px 30px,
+              radial-gradient(
+                  circle farthest-side at 0% 50%,
+                  #08ff0851 24%,
+                  rgba(240, 166, 17, 0) 0
+                )
+                19px 30px,
+              linear-gradient(
+                  #282828 14%,
+                  rgba(240, 166, 17, 0) 0,
+                  rgba(240, 166, 17, 0) 85%,
+                  #282828 0
+                )
+                0 0,
+              linear-gradient(
+                  150deg,
+                  #282828 24%,
+                  #08ff0851 0,
+                  #08ff0851 26%,
+                  rgba(240, 166, 17, 0) 0,
+                  rgba(240, 166, 17, 0) 74%,
+                  #08ff0851 0,
+                  #08ff0851 76%,
+                  #282828 0
+                )
+                0 0,
+              linear-gradient(
+                  30deg,
+                  #282828 24%,
+                  #08ff0851 0,
+                  #08ff0851 26%,
+                  rgba(240, 166, 17, 0) 0,
+                  rgba(240, 166, 17, 0) 74%,
+                  #08ff0851 0,
+                  #08ff0851 76%,
+                  #282828 0
+                )
+                0 0,
+              linear-gradient(90deg, #08ff0851 2%, #282828 0, #282828 98%, #08ff0851 0%) 0 0
+                #282828;
+            background-size: 40px 60px;
+        }
+        
+        .Messenger input,
+        .Messenger button {
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        
+        .Messenger input {
+            width: 300px;
+            margin-right: 10px;
+            background-color: #222222;
+            color: aqua;
+        }
+        
+        .Messenger button {
+            background-color: transparent;
+            color: aqua;
+            border: 1px solid aqua;
+            cursor: pointer;
+        }
+        .modal5 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .modal5-content {
+            background-color: #33333397;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            color: #80FCFC;
+            z-index: 1;
+        }
+        .modal5-content input {
+            display: block;
+            background-color: black;
+            color: #80FCFC;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .modal5-content button {
+            padding: 10px 20px;
+            background-color: #80FCFC;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .matrix {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 2;
+        }
+        .modal {
+            z-index: 3;
+            color: #91f83e;
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: black;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #80FE0C;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal6-content {
+            background-color: #33333397;
+            padding: 5px; /* Reduce padding */
+            border-radius: 5px;
+            text-align: center;
+            color: #80FCFC;
+            z-index: 1;
+            transform: scale(0.2); /* Scale down to 10% of original size */
+            transform-origin: top left; /* Scale from the top left corner */
+            width: 200px;
+            height:200px;
+        }
+        
+        .modal6-content input {
+            display: block;
+            background-color: black;
+            color: #80FCFC;
+            border-radius: 8px;
+            padding: 10px; /* Adjust padding to original or desired value */
+            margin: auto; /* Adjust margin to original or desired value */
+            font-size: 16px; /* Adjust font size to original or desired value */
+            width: 80%; /* Adjust width to fit your design */
+            text-align: center; /* Center text inside input */
+        }
+        
+        .modal6-content button {
+            padding: 2px 5px; /* Reduce padding */
+            background-color: #80FCFC;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 5px; /* Reduce font size */
+        }
+        a {
+            text-decoration: none;
+            color:#91f83e;
+        }
+
+        .form-container {
+            justify-content: center; /* Center horizontally */
+            align-items: center;     /* Center vertically */
+            height: 100%;            /* Ensure container takes full height */
+            width: 100%;             /* Ensure container takes full width */
+            top: 0;                  /* Align to the top */
+            left: 0;                 /* Align to the left */
+        }
+        
+        .Messenger {
+            display: flex;
+            flex-direction: column;
+            align-items: center;    /* Center the contents horizontally */
+        }
+        
+        .Messenger input {
+            border-radius: 5px;
+            background-color: #222222;
+            color: aqua;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            width: 300px;
+        }
+        
+        .Messenger button {
+            padding: 10px 20px;
+            background-color: #80FCFC;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .welcome {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center; /* Center the text within the welcome message */
+            padding: 20px;
+        }
+        .button1 {
+            border-radius: 5px;
+            background-color: #80fcfcc4;
+            padding: 15px 30px; /* Adjusts the padding inside the button */
+            font-size: 100%; /* Adjusts the font size */
+            width: auto; /* You can set a fixed width if desired, e.g., 200px */
+            border: 2px solid black; /* Optional: add a border for better visibility */
+            border-radius: 5px;
+            font-family: "Lucida Console", "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="header" id="header">
+        <a href="#" class="tab1" onclick="showPopup()">
+            <script src="https://cdn.lordicon.com/lordicon.js"></script>
+            <lord-icon
+                src="https://cdn.lordicon.com/wzrwaorf.json"
+                trigger="loop"
+                colors="primary:#80FCFC"
+                style="width:50px;height:50px">
+            </lord-icon>
+        </a>
+        <script>
+            function showPopup() {
+                // Get the modal
+                var modal = document.getElementById("myModal");
+        
+                // Display the modal
+                modal.style.display = "block";
+        
+                // When the user clicks on <span> (x), close the modal
+                var span = document.getElementsByClassName("close")[0];
+                span.onclick = function () {
+                    modal.style.display = "none";
+                };
+        
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                };
+            }
+        </script>
+        
+        <!-- HTML for the pop-up modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3 style='color:aqua;'>Welcome to Matrix</h3>
+                <p>
+                    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                    <lord-icon
+                        src="https://cdn.lordicon.com/laqlvddb.json"
+                        trigger="loop"
+                        colors="primary:#80FCFC"
+                        style="width:30px;height:30px">
+                    </lord-icon>
+                    Clicking this button will help you return to the home page.</p>
+                <p>
+                    <strong style='color:#80FCFC;'>Login:</strong>
+                    This portal allows users with authenticated email IDs and passwords to access the page where they can send messages as Gemini 1.5.
+                </p>
+                <h4 style="color: aqua; margin-bottom: 1px;">Need Your Own Authenticated Email and Password?</h4>
+                <p style='color:#80FCFC; margin-top: 1px;'>Just click <a href="mailto:scriptiez.matrix@gmail.com?subject=I%20need%20permission%20to%20access%20the%20Matrix%20Gemini%201.5%20portal&body=I%20need%20permission%20to%20access%20the%20Matrix%20Gemini%201.5%20portal" target="_blank">scriptiez.matrix@gmail.com</a>, which will open your default email client with a predefined subject and message. Feel free to add any additional message you wish to convey!</p>
+                <p style='color:aqua;font-style: italic; text-align:center;'>Powered by Scriptiez</p>
+            </div>
+        </div>
+        <h4 style='color:#91f83e;'>AUTHENTICATION</h4>
+        <a style='margin-right:10px;' href='/' onclick='displayLoad()' class="tab1">
+            <script src="https://cdn.lordicon.com/lordicon.js"></script>
+            <lord-icon
+                src="https://cdn.lordicon.com/laqlvddb.json"
+                trigger="loop"
+                colors="primary:#80FCFC"
+                style="width:50px;height:50px">
+            </lord-icon>
+        </a>
+    </div>
+
+    <div class="modal5" id="loginModal">
+        <div class="matrix" id="matrixAnimation"></div>
+        <div class="modal5-content">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <div class="error" id="errorMessage"></div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Matrix animation setup
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            document.getElementById('matrixAnimation').appendChild(canvas);
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const katakana = 'アカサタナハマヤラワヰヱヲン゛゜ァィゥェォャュョッ';
+            const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const nums = '0123456789';
+
+            const alphabet = katakana + latin + nums;
+
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+
+            const drops = [];
+            for (let x = 0; x < columns; x++) {
+                drops[x] = 1;
+            }
+
+            function draw() {
+                context.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                context.fillRect(0, 0, canvas.width, canvas.height);
+
+                context.fillStyle = '#0F0';
+                context.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = alphabet[Math.floor(Math.random() * alphabet.length)];
+                    context.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+
+                    drops[i]++;
+                }
+            }
+
+            setInterval(draw, 33);
+
+            // Handle login
+            function login() {
+                const username = $('#username').val();
+                const password = $('#password').val();
+
+                $.ajax({
+                    url: '/login',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ username: username, password: password }),
+                    success: function(response) {
+                        if (response.success) {
+                            sessionStorage.setItem('authenticated', true);
+                            $('#loginModal').hide();
+                            $('#header').hide(); // Hide the header upon successful login
+                        } else {
+                            $('#errorMessage').text(response.message);
+                        }
+                    }
+                });
+            }
+
+            window.login = login;
+        });
+    </script>
+    <div class="container">
+        <div class='welcome'>
+            <h2 style='font-family: Arial, Helvetica, sans-serif; color:rgba(0, 255, 255, 0.771); margin-bottom: 3px;'>Welcome Human!</h2>
+            <p style='font-family: "Lucida Console", "Courier New", monospace; margin-top:3px; color:#80fcfcc4;'>The Message sending portal will enable you to pretend like Gemini 1.5 and alter the conversation with Gemini 1.0. Choose your words wisely! Your decision could start or stop an intriguing conversation. Click <a href='/'><button class='button1' style='padding: 5px 15px;'><strong>TERMINATE</strong></button></a> to go back to the homepage and pretend nothing has happened.</p>
+            <img style='width:90%;' src='\static\m1.png'>
+        </div>
+        <div class="form-container">
+            <form class="Messenger" action="/send_message" method="post">
+                <input type="text" name="message" placeholder="Hey! I am Gemini 1.5">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
